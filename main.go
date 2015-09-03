@@ -13,5 +13,37 @@
 
 package main
 
+import (
+	"flag"
+	"fmt"
+	"os"
+)
+
+var (
+	flagDebug = flag.Bool("debug", false, "Enables debug messages")
+)
+
+func usage() {
+	fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
+	fmt.Fprintf(os.Stderr, "oci2aci [--debug] OCI-BUNDLE\n")
+	fmt.Fprintf(os.Stderr, "  Where OCI-BUNDLE is\n")
+	fmt.Fprintf(os.Stderr, "    FILEPATH\n")
+	fmt.Fprintf(os.Stderr, "Flags:\n")
+	flag.PrintDefaults()
+}
+
 func main() {
+	flag.Usage = usage
+	flag.Parse()
+	args := flag.Args()
+
+	if len(args) < 1 {
+		usage()
+		return
+	}
+
+	if err := runOCI2ACI(args[0], *flagDebug); err != nil {
+		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		os.Exit(1)
+	}
 }

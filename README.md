@@ -18,4 +18,33 @@ or as involved as:
 	go get -d ./...
 	go build
 	
-## CLI examples
+## Usage
+
+```
+$ oci2aci
+NAME:
+   oci2aci - Tool for conversion from oci to aci
+
+USAGE:
+   oci2aci [--debug] [arguments...]
+
+VERSION:
+   0.1.0
+
+FLAGS:
+   -debug=false: Enables debug messages
+
+```
+
+## Example
+
+```
+$ oci2aci  --debug test
+test: invalid oci bundle: error accessing bundle: stat test: no such file or directory
+Conversion stop.
+
+$ oci2aci  --debug oci-bundle
+
+ oci-bundle.aci generated successfully.
+
+```

@@ -13,7 +13,14 @@
 
 package main
 
-func runOCI2ACI(arg string, flagDebug bool) error {
+import (
+	"fmt"
+)
 
+func runOCI2ACI(path string, flagDebug bool) error {
+	if bValidate := validateOCIProc(path); bValidate != true {
+                fmt.Println("Conversion stop.")
+                return nil
+        }
 	return nil
 }

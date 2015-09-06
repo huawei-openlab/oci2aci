@@ -15,15 +15,32 @@ package main
 
 import (
 	"fmt"
+	"io"
+	"os"
+	"strings"
 )
 
-func runOCI2ACI(path string, flagDebug bool) error {
-	if flagDebug {
-		InitDebug()
+var debugEnabled bool
+
+func printTo(w io.Writer, i ...interface{}) {
+	s := fmt.Sprint(i...)
+	fmt.Fprintln(w, strings.TrimSuffix(s, "\n"))
+}
+
+func Warn(i ...interface{}) {
+	printTo(os.Stderr, i...)
+}
+
+func Info(i ...interface{}) {
+	printTo(os.Stderr, i...)
+}
+
+func Debug(i ...interface{}) {
+	if debugEnabled {
+		printTo(os.Stderr, i...)
 	}
-	if bValidate := validateOCIProc(path); bValidate != true {
-                fmt.Println("Conversion stop.")
-                return nil
-        }
-	return nil
+}
+
+func InitDebug() {
+	debugEnabled = true
 }

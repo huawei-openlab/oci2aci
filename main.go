@@ -24,11 +24,16 @@ var (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
-	fmt.Fprintf(os.Stderr, "oci2aci [--debug] OCI-BUNDLE\n")
-	fmt.Fprintf(os.Stderr, "  Where OCI-BUNDLE is\n")
-	fmt.Fprintf(os.Stderr, "    FILEPATH\n")
-	fmt.Fprintf(os.Stderr, "Flags:\n")
+	fmt.Fprintf(os.Stderr, "NAME:\n")
+        fmt.Fprintf(os.Stderr, "    oci2aci - Tool for conversion from oci to aci\n")
+
+	fmt.Fprintf(os.Stderr, "USAGE:\n")
+	fmt.Fprintf(os.Stderr, "    oci2aci [--debug] [arguments...]\n")
+
+	fmt.Fprintf(os.Stderr, "VERSION:\n")
+        fmt.Fprintf(os.Stderr, "    0.1.0\n")
+
+	fmt.Fprintf(os.Stderr, "FLAGS:\n")
 	flag.PrintDefaults()
 }
 

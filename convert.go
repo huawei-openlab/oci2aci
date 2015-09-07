@@ -16,6 +16,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"io/ioutil"
 	"path/filepath"
 )
@@ -54,5 +55,9 @@ func createWorkDir() string {
 }
 
 func convertProc(srcPath, dstPath string) error {
+	src := srcPath + "/rootfs"
+	if err := run(exec.Command("cp", "-rf", src, dstPath)); err != nil {
+		return err
+	}
 	return nil
 }

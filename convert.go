@@ -25,5 +25,7 @@ func runOCI2ACI(path string, flagDebug bool) error {
                 fmt.Println("Conversion stop.")
                 return nil
         }
+
+	buildACI(path)
 	return nil
 }

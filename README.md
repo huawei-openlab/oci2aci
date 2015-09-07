@@ -38,11 +38,21 @@ FLAGS:
 
 ## Example
 
+An OCI Bundle described as below:
 ```
+config.json
+runtime.json
+rootfs/
+```
+
+Examples of oci2aci illustrated as below:
+```
+// An example of invalid oci bundle
 $ oci2aci  --debug test
 test: invalid oci bundle: error accessing bundle: stat test: no such file or directory
 Conversion stop.
 
+// An example of valid oci bundle
 $ oci2aci  --debug oci-bundle
 
  oci-bundle.aci generated successfully.

@@ -15,6 +15,9 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"io/ioutil"
+	"path/filepath"
 )
 
 func runOCI2ACI(path string, flagDebug bool) error {
@@ -26,6 +29,30 @@ func runOCI2ACI(path string, flagDebug bool) error {
                 return nil
         }
 
-	buildACI(path)
+	dirWork := createWorkDir()
+
+	convertProc(path, dirWork)
+
+	buildACI(dirWork)
+
+	return nil
+}
+
+func createWorkDir() string {
+	idir, err := ioutil.TempDir("", "oci2aci")
+        if err != nil {
+                return ""
+        }
+        rootfs := filepath.Join(idir, "rootfs")
+        os.MkdirAll(rootfs, 0755)
+
+	data := []byte{}
+	if err := ioutil.WriteFile(filepath.Join(idir, "manifest"), data, 0644); err != nil {
+		return ""
+	}
+	return idir
+}
+
+func convertProc(srcPath, dstPath string) error {
 	return nil
 }

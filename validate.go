@@ -49,10 +49,14 @@ func validateOCIProc(path string) bool {
 	var bRes bool
 	err := validateBundle(path)
 	if err != nil {
-		fmt.Printf("%s: invalid oci bundle: %v\n", path, err)
+		if debugEnabled {
+			fmt.Printf("%s: invalid oci bundle: %v\n", path, err)
+		}		
 		bRes = false
 	} else {
-		fmt.Printf("%s: valid oci bundle\n", path)
+		if debugEnabled {
+			fmt.Printf("%s: valid oci bundle\n", path)
+		}
 		bRes = true
 	}
         return bRes

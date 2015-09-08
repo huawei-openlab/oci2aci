@@ -20,22 +20,10 @@ import (
 	"io/ioutil"
 	"path/filepath"
 	"encoding/json"
+	"github.com/opencontainers/specs"
+	"github.com/appc/spec/schema/types"
+	"github.com/appc/spec/schema"
 )
-
-type ImageManifest struct {
-	ACVersion     string `json:"acVersion"`
-	ACKind        string `json:"acKind"`
-	Name          string `json:"name"`
-	Labels        string `json:"labels,omitempty"`
-	App           string `json:"app,omitempty"`
-	Annotations   string `json:"annotations,omitempty"`
-	Dependencies  string `json:"dependencies,omitempty"`
-	PathWhitelist string `json:"pathWhitelist,omitempty"`
-}
-
-func blankImageManifest() *ImageManifest {
-	return &ImageManifest{ACKind: "ImageManifest", ACVersion: "0.6.1+git", Name: "test"}
-}
 
 func runOCI2ACI(path string, flagDebug bool) error {
 	if flagDebug {
@@ -70,8 +58,33 @@ func createWorkDir() string {
 	return idir
 }
 
-func genManifest() *ImageManifest {
-	return blankImageManifest()
+func genManifest(path string) *schema.ImageManifest {
+	//runtimePath := path + "/runtime.json"
+	configPath := path + "/config.json"
+
+	/*runtime, err := ioutil.ReadFile(runtimePath)
+	if err != nil {
+		return nil
+	}*/
+	
+	config, err := ioutil.ReadFile(configPath)
+	if err != nil {
+		return nil
+	}
+	
+	var spec specs.Spec
+	err = json.Unmarshal(config, &spec)
+	if err != nil {
+		return nil
+	}
+
+	m := new(schema.ImageManifest)
+	semVer, _ := types.NewSemVer(spec.Version)
+	m.ACVersion = *semVer
+	m.ACKind = "ImageManifest"
+	m.Name = "example"
+		
+	return m
 }
 
 func convertProc(srcPath, dstPath string) error {
@@ -80,8 +93,7 @@ func convertProc(srcPath, dstPath string) error {
 		return err
 	}
 
-	m := genManifest()
-	fmt.Println(m)
+	m := genManifest(srcPath)
 	
 	bytes, err := json.Marshal(m)
 	if err != nil {

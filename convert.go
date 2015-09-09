@@ -79,11 +79,45 @@ func genManifest(path string) *schema.ImageManifest {
 	}
 
 	m := new(schema.ImageManifest)
-	semVer, _ := types.NewSemVer(spec.Version)
-	m.ACVersion = *semVer
+
+	// Assemble "acKind", "acVersion" and "name" fields
+	m.ACVersion = schema.AppContainerVersion
 	m.ACKind = "ImageManifest"
 	m.Name = "example"
-		
+	
+	// Assemble "mountPoints" field
+	/*var i int
+	for index := range spec.Mounts {
+		i = index
+	}
+
+	app := new(types.App)
+	app.MountPoints = make([]types.MountPoint, i+1)
+
+	for index := range spec.Mounts {
+		app.MountPoints[index].Name = types.ACName(spec.Mounts[index].Name)
+		app.MountPoints[index].Path = spec.Mounts[index].Path
+	}
+	
+	m.App = app*/
+	
+	// Assemble "labels" field
+	label := new(types.Label)
+        label.Name = types.ACIdentifier("version")
+        label.Value = spec.Version
+        m.Labels = append(m.Labels, *label)
+
+	label = new(types.Label)
+	label.Name = types.ACIdentifier("os")
+	label.Value = spec.Platform.OS
+	m.Labels = append(m.Labels, *label)
+
+	label = new(types.Label)
+	label.Name = types.ACIdentifier("arch")
+	label.Value = spec.Platform.Arch
+        m.Labels = append(m.Labels, *label)
+
+	fmt.Println(m)
 	return m
 }
 
@@ -97,6 +131,7 @@ func convertProc(srcPath, dstPath string) error {
 	
 	bytes, err := json.Marshal(m)
 	if err != nil {
+		fmt.Println("ERROR")
 		return err
 	}
 	

@@ -16,6 +16,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 	"os/exec"
 	"io/ioutil"
 	"path/filepath"
@@ -87,19 +88,22 @@ func genManifest(path string) *schema.ImageManifest {
 	
 	// Assemble "app" field
 	app := new(types.App)
-	app.Exec = append(app.Exec, "/usr/bin/reduce-worker")
-	app.Exec = append(app.Exec, "--quiet")
-	app.User = "100"
-	app.Group = "30"
-	app.WorkingDirectory = "/opt/work"
+
+	app.Exec = spec.Process.Args
+	app.User = string(spec.Process.User.UID)
+	app.Group = string(spec.Process.User.GID)
+	app.WorkingDirectory = spec.Process.Cwd
 
 	env := new(types.EnvironmentVariable)
-	env.Name = "REDUCE_WORKER_DEBUG"
-	env.Value = "true"
-	app.Environment = append(app.Environment, *env)
+	for index := range spec.Process.Env {
+                s := strings.Split(spec.Process.Env[index], "=")
+                env.Name = s[0]
+		env.Value = s[1]
+		app.Environment = append(app.Environment, *env)
+        }
 	
 	port := new(types.Port)
-	port.Name = types.ACName("health")
+	port.Name = types.ACName("test")
 	port.Protocol = "tcp"
 	port.Port = 4000
 	port.Count = 0

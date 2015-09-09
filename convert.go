@@ -85,21 +85,35 @@ func genManifest(path string) *schema.ImageManifest {
 	m.ACKind = "ImageManifest"
 	m.Name = "example"
 	
-	// Assemble "mountPoints" field
-	/*var i int
-	for index := range spec.Mounts {
-		i = index
-	}
-
+	// Assemble "app" field
 	app := new(types.App)
-	app.MountPoints = make([]types.MountPoint, i+1)
+	app.Exec = append(app.Exec, "/usr/bin/reduce-worker")
+	app.Exec = append(app.Exec, "--quiet")
+	app.User = "100"
+	app.Group = "30"
+	app.WorkingDirectory = "/opt/work"
+
+	env := new(types.EnvironmentVariable)
+	env.Name = "REDUCE_WORKER_DEBUG"
+	env.Value = "true"
+	app.Environment = append(app.Environment, *env)
+	
+	port := new(types.Port)
+	port.Name = types.ACName("health")
+	port.Protocol = "tcp"
+	port.Port = 4000
+	port.Count = 0
+	port.SocketActivated = true
+	app.Ports = append(app.Ports, *port)
 
 	for index := range spec.Mounts {
-		app.MountPoints[index].Name = types.ACName(spec.Mounts[index].Name)
-		app.MountPoints[index].Path = spec.Mounts[index].Path
+		mount := new(types.MountPoint)
+		mount.Name = types.ACName(spec.Mounts[index].Name)
+		mount.Path = spec.Mounts[index].Path
+		app.MountPoints = append(app.MountPoints, *mount)
 	}
 	
-	m.App = app*/
+	m.App = app
 	
 	// Assemble "labels" field
 	label := new(types.Label)
@@ -117,7 +131,7 @@ func genManifest(path string) *schema.ImageManifest {
 	label.Value = spec.Platform.Arch
         m.Labels = append(m.Labels, *label)
 
-	fmt.Println(m)
+	
 	return m
 }
 

@@ -62,7 +62,9 @@ func InitDebug() {
 }
 
 func run(cmd *exec.Cmd) error {
-        log.Printf("run: %v %v", cmd.Path, cmd.Args)
+        if debugEnabled {
+		log.Printf("run: %v %v", cmd.Path, cmd.Args)
+	}	
         stdout, err := cmd.StdoutPipe()
         if err != nil {
                 return errorf(err.Error())

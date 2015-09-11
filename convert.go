@@ -174,7 +174,8 @@ func genManifest(path string) *schema.ImageManifest {
 }
 
 func convertProc(srcPath, dstPath string) error {
-	src := srcPath + "/rootfs"
+	src, _ := filepath.Abs(srcPath)
+	src += "/rootfs"
 	if err := run(exec.Command("cp", "-rf", src, dstPath)); err != nil {
 		return err
 	}

@@ -39,7 +39,16 @@ func runOCI2ACI(path string, flagDebug bool) error {
 
 	convertProc(path, dirWork)
 
-	buildACI(dirWork)
+	err := buildACI(dirWork)
+	if err != nil {
+		if debugEnabled {
+			fmt.Println("Generate aci image failed!")
+		}
+	} else {
+		if debugEnabled {
+                        fmt.Println("aci image generated successfully.")
+                }
+	}
 
 	return nil
 }
@@ -60,13 +69,13 @@ func createWorkDir() string {
 }
 
 func genManifest(path string) *schema.ImageManifest {
-	//runtimePath := path + "/runtime.json"
+	runtimePath := path + "/runtime.json"
 	configPath := path + "/config.json"
 
-	/*runtime, err := ioutil.ReadFile(runtimePath)
+	runtime, err := ioutil.ReadFile(runtimePath)
 	if err != nil {
 		return nil
-	}*/
+	}
 	
 	config, err := ioutil.ReadFile(configPath)
 	if err != nil {
@@ -75,6 +84,12 @@ func genManifest(path string) *schema.ImageManifest {
 	
 	var spec specs.Spec
 	err = json.Unmarshal(config, &spec)
+	if err != nil {
+		return nil
+	}
+
+	var runSpec specs.RuntimeSpec
+	err = json.Unmarshal(runtime, &runSpec)
 	if err != nil {
 		return nil
 	}
@@ -92,6 +107,25 @@ func genManifest(path string) *schema.ImageManifest {
 	app.Exec = spec.Process.Args
 	app.User = string(spec.Process.User.UID)
 	app.Group = string(spec.Process.User.GID)
+
+	event := new(types.EventHandler)
+	event.Name = "pre-start"
+	for index := range runSpec.Hooks.Prestart {
+		event.Exec = append(event.Exec, runSpec.Hooks.Prestart[index].Path)
+		event.Exec = append(event.Exec, runSpec.Hooks.Prestart[index].Args...)
+		event.Exec = append(event.Exec, runSpec.Hooks.Prestart[index].Env...)
+        }
+	app.EventHandlers = append(app.EventHandlers, *event)
+
+	event = new(types.EventHandler)
+        event.Name = "post-stop"
+        for index := range runSpec.Hooks.Poststop {
+                event.Exec = append(event.Exec, runSpec.Hooks.Poststop[index].Path)
+                event.Exec = append(event.Exec, runSpec.Hooks.Poststop[index].Args...)
+                event.Exec = append(event.Exec, runSpec.Hooks.Poststop[index].Env...)
+        }
+        app.EventHandlers = append(app.EventHandlers, *event)
+	
 	app.WorkingDirectory = spec.Process.Cwd
 
 	env := new(types.EnvironmentVariable)
@@ -149,7 +183,9 @@ func convertProc(srcPath, dstPath string) error {
 	
 	bytes, err := json.Marshal(m)
 	if err != nil {
-		fmt.Println("ERROR")
+		if debugEnabled {		
+			fmt.Println("json Marshal exec failed!")
+		}
 		return err
 	}
 	

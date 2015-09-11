@@ -15,6 +15,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
 	"os/exec"
@@ -31,7 +32,7 @@ func runOCI2ACI(path string, flagDebug bool) error {
 		InitDebug()
 	}
 	if bValidate := validateOCIProc(path); bValidate != true {
-                fmt.Println("Conversion stop.")
+                log.Printf("Conversion stop.")
                 return nil
         }
 
@@ -42,11 +43,11 @@ func runOCI2ACI(path string, flagDebug bool) error {
 	err := buildACI(dirWork)
 	if err != nil {
 		if debugEnabled {
-			fmt.Println("Generate aci image failed!")
+			log.Printf("Generate aci image failed!")
 		}
 	} else {
 		if debugEnabled {
-                        fmt.Println("aci image generated successfully.")
+                        log.Printf("aci image generated successfully.")
                 }
 	}
 

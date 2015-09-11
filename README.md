@@ -53,8 +53,7 @@ test: invalid oci bundle: error accessing bundle: stat test: no such file or dir
 Conversion stop.
 
 // An example of valid oci bundle
-$ oci2aci  --debug oci-bundle
-
- oci-bundle.aci generated successfully.
+$ oci2aci  --debug example/oci-bundle
+ aci image generated successfully.
 
 ```

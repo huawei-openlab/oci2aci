@@ -69,7 +69,38 @@ func createWorkDir() string {
 	return idir
 }
 
+// The structure of appc manifest:
+// 1.acKind
+// 2. acVersion
+// 3. name
+// 4. labels 
+//	4.1 version 
+//	4.2 os
+//	4.3 arch
+// 5. app 
+//	5.1 exec 
+//	5.2 user
+//	5.3 group 
+//	5.4 eventHandlers 
+//	5.5 workingDirectory 
+//	5.6 environment  
+//	5.7 mountPoints 
+//	5.8 ports
+//      5.9 isolators 
+// 6. annotations
+//	6.1 created
+//	6.2 authors 
+//	6.3 homepage 
+//	6.4 documentation
+// 7. dependencies
+//	7.1 imageName
+//	7.2 imageID
+//	7.3 labels
+//	7.4 size
+// 8. pathWhitelist
+
 func genManifest(path string) *schema.ImageManifest {
+	// Get runtime.json and config.json
 	runtimePath := path + "/runtime.json"
 	configPath := path + "/config.json"
 
@@ -95,20 +126,44 @@ func genManifest(path string) *schema.ImageManifest {
 		return nil
 	}
 
+	// Begin to convert runtime.json/config.json to manifest
 	m := new(schema.ImageManifest)
 
-	// Assemble "acKind", "acVersion" and "name" fields
+	// 1. Assemble "acKind" field
+        m.ACKind = "ImageManifest"
+
+	// 2. Assemble "acVersion" field
 	m.ACVersion = schema.AppContainerVersion
-	m.ACKind = "ImageManifest"
+
+	// 3. Assemble "name" field
 	m.Name = "example"
+
+	// 4. Assemble "labels" field
+	// 4.1 "version"
+        label := new(types.Label)
+        label.Name = types.ACIdentifier("version")
+        label.Value = spec.Version
+        m.Labels = append(m.Labels, *label)
+	// 4.2 "os"
+        label = new(types.Label)
+        label.Name = types.ACIdentifier("os")
+        label.Value = spec.Platform.OS
+        m.Labels = append(m.Labels, *label)
+	// 4.3 "arch"
+        label = new(types.Label)
+        label.Name = types.ACIdentifier("arch")
+        label.Value = spec.Platform.Arch
+        m.Labels = append(m.Labels, *label)
 	
-	// Assemble "app" field
+	// 5. Assemble "app" field
 	app := new(types.App)
-
+	// 5.1 "exec"
 	app.Exec = spec.Process.Args
+	// 5.2 "user"
 	app.User = string(spec.Process.User.UID)
+	// 5.3 "group"
 	app.Group = string(spec.Process.User.GID)
-
+	// 5.4 "eventHandlers"
 	event := new(types.EventHandler)
 	event.Name = "pre-start"
 	for index := range runSpec.Hooks.Prestart {
@@ -117,7 +172,6 @@ func genManifest(path string) *schema.ImageManifest {
 		event.Exec = append(event.Exec, runSpec.Hooks.Prestart[index].Env...)
         }
 	app.EventHandlers = append(app.EventHandlers, *event)
-
 	event = new(types.EventHandler)
         event.Name = "post-stop"
         for index := range runSpec.Hooks.Poststop {
@@ -126,9 +180,9 @@ func genManifest(path string) *schema.ImageManifest {
                 event.Exec = append(event.Exec, runSpec.Hooks.Poststop[index].Env...)
         }
         app.EventHandlers = append(app.EventHandlers, *event)
-	
+	// 5.5 "workingDirectory"
 	app.WorkingDirectory = spec.Process.Cwd
-
+	// 5.6 "environment"
 	env := new(types.EnvironmentVariable)
 	for index := range spec.Process.Env {
                 s := strings.Split(spec.Process.Env[index], "=")
@@ -137,14 +191,7 @@ func genManifest(path string) *schema.ImageManifest {
 		app.Environment = append(app.Environment, *env)
         }
 	
-	port := new(types.Port)
-	port.Name = types.ACName("test")
-	port.Protocol = "tcp"
-	port.Port = 4000
-	port.Count = 0
-	port.SocketActivated = true
-	app.Ports = append(app.Ports, *port)
-
+	// 5.7 "mountPoints"
 	for index := range spec.Mounts {
 		mount := new(types.MountPoint)
 		mount.Name = types.ACName(spec.Mounts[index].Name)
@@ -152,24 +199,17 @@ func genManifest(path string) *schema.ImageManifest {
 		app.MountPoints = append(app.MountPoints, *mount)
 	}
 	
-	m.App = app
+	// 5.8 "ports"
+
+	// 5.9 "isolators"
 	
-	// Assemble "labels" field
-	label := new(types.Label)
-        label.Name = types.ACIdentifier("version")
-        label.Value = spec.Version
-        m.Labels = append(m.Labels, *label)
+	// 6. "annotations"
 
-	label = new(types.Label)
-	label.Name = types.ACIdentifier("os")
-	label.Value = spec.Platform.OS
-	m.Labels = append(m.Labels, *label)
+	// 7. "dependencies"
 
-	label = new(types.Label)
-	label.Name = types.ACIdentifier("arch")
-	label.Value = spec.Platform.Arch
-        m.Labels = append(m.Labels, *label)
+	// 8. "pathWhitelist"
 
+	m.App = app
 	
 	return m
 }

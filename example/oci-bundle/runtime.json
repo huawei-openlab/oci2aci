@@ -1,5 +1,5 @@
 {
-"hooks" : {
+    "hooks" : {
         "prestart": [
             {
                 "path": "/usr/bin/fix-mounts",
@@ -16,5 +16,27 @@
                 "args": ["-f"]
             }
         ]
+    },
+    "mounts": {
+        "proc": {
+            "type": "proc",
+            "source": "proc",
+            "options": []
+        },
+        "dev": {
+            "type": "tmpfs",
+            "source": "tmpfs",
+            "options": ["nosuid","strictatime","mode=755","size=65536k"]
+        },
+        "devpts": {
+            "type": "devpts",
+            "source": "devpts",
+            "options": ["nosuid","noexec","newinstance","ptmxmode=0666","mode=0620","gid=5"]
+        },
+        "data": {
+            "type": "bind",
+            "source": "/volumes/testing",
+            "options": ["rbind","rw"]
+        }
     }
 }

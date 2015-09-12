@@ -11,6 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// This file defines a cli framework for oci2aci
+
 package main
 
 import (
@@ -25,13 +27,13 @@ var (
 
 func usage() {
 	fmt.Fprintf(os.Stderr, "NAME:\n")
-        fmt.Fprintf(os.Stderr, "    oci2aci - Tool for conversion from oci to aci\n")
+	fmt.Fprintf(os.Stderr, "    oci2aci - Tool for conversion from oci to aci\n")
 
 	fmt.Fprintf(os.Stderr, "USAGE:\n")
 	fmt.Fprintf(os.Stderr, "    oci2aci [--debug] [arguments...]\n")
 
 	fmt.Fprintf(os.Stderr, "VERSION:\n")
-        fmt.Fprintf(os.Stderr, "    0.1.0\n")
+	fmt.Fprintf(os.Stderr, "    0.1.0\n")
 
 	fmt.Fprintf(os.Stderr, "FLAGS:\n")
 	flag.PrintDefaults()

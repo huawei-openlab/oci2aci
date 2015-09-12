@@ -14,11 +14,11 @@
 package main
 
 import (
-	"fmt"
-	"os"
 	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -51,7 +51,7 @@ func validateOCIProc(path string) bool {
 	if err != nil {
 		if debugEnabled {
 			fmt.Printf("%s: invalid oci bundle: %v\n", path, err)
-		}		
+		}
 		bRes = false
 	} else {
 		if debugEnabled {
@@ -59,7 +59,7 @@ func validateOCIProc(path string) bool {
 		}
 		bRes = true
 	}
-        return bRes
+	return bRes
 }
 
 func validateBundle(path string) error {

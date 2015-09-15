@@ -3,7 +3,9 @@
 oci2aci is a small library and CLI binary that converts [OCI](https://github.com/opencontainers/specs) bundle to
 [ACI](https://github.com/appc/spec/blob/master/SPEC.md#app-container-image). It takes OCI bundle as input, and gets ACI image as output.
 
-All ACIs generated are compressed with gzip.
+oci2aci's workflow divided into two steps:
+- **Convert**. Convert oci layout to aci layout.
+- **Build**. Build aci layout to .aci image.
 
 ## Build
 

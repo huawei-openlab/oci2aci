@@ -7,6 +7,19 @@ oci2aci's workflow divided into two steps:
 - **Convert**. Convert oci layout to aci layout.
 - **Build**. Build aci layout to .aci image.
 
+An OCI layout described as below:
+```
+config.json
+runtime.json
+rootfs/
+```
+
+An ACI layout described as below:
+```
+manifest
+rootfs/
+```
+
 ## Build
 
 Installation is simple as:
@@ -40,22 +53,15 @@ FLAGS:
 
 ## Example
 
-An OCI Bundle described as below:
-```
-config.json
-runtime.json
-rootfs/
-```
-
 Examples of oci2aci illustrated as below:
 ```
 // An example of invalid oci bundle
-$ oci2aci  --debug test
+$ ./oci2aci  --debug test
 test: invalid oci bundle: error accessing bundle: stat test: no such file or directory
 Conversion stop.
 
 // An example of valid oci bundle
-$ oci2aci  --debug example/oci-bundle
+$ ./oci2aci  --debug example/oci-bundle
  aci image generated successfully.
 
 ```

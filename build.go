@@ -30,7 +30,7 @@ func buildACI(dir string) error {
 
 func createACI(dir string, imageName string) error {
 
-	if err := run(exec.Command("actool", "build", "-overwrite", dir, imageName)); err != nil {
+	if err := run(exec.Command("tools/actool", "build", "-overwrite", dir, imageName)); err != nil {
 		return err
 	}
 	return nil

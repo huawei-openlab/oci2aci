@@ -44,7 +44,7 @@ func runOCI2ACI(path string, flagDebug bool) error {
 	err := convertLayout(path, dirWork)
 	if err != nil {
 		if debugEnabled {
-			log.Printf("Conversion from oci to aci layout failed!")
+			log.Printf("Conversion from oci to aci layout failed: %v", err)
 		}
 
 	}
@@ -236,9 +236,6 @@ func convertLayout(srcPath, dstPath string) error {
 
 	bytes, err := json.Marshal(m)
 	if err != nil {
-		if debugEnabled {
-			fmt.Println("json Marshal exec failed!")
-		}
 		return err
 	}
 

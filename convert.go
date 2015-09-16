@@ -170,9 +170,9 @@ func genManifest(path string) *schema.ImageManifest {
 	// 5.1 "exec"
 	app.Exec = spec.Process.Args
 	// 5.2 "user"
-	app.User = string(spec.Process.User.UID)
+	app.User = fmt.Sprintf("%d", spec.Process.User.UID)
 	// 5.3 "group"
-	app.Group = string(spec.Process.User.GID)
+	app.Group = fmt.Sprintf("%d", spec.Process.User.GID)
 	// 5.4 "eventHandlers"
 	event := new(types.EventHandler)
 	event.Name = "pre-start"

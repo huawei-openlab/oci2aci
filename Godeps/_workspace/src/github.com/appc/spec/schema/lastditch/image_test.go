@@ -18,7 +18,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/appc/spec/schema/types"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/schema/types"
 )
 
 func TestImageManifestWithInvalidName(t *testing.T) {

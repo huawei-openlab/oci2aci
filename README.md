@@ -55,12 +55,12 @@ FLAGS:
 Examples of oci2aci illustrated as below:
 ```
 // An example of invalid oci bundle
-$ ./oci2aci  --debug test
+$ oci2aci  --debug test
 test: invalid oci bundle: error accessing bundle: stat test: no such file or directory
 Conversion stop.
 
 // An example of valid oci bundle
-$ ./oci2aci  --debug example/oci-bundle
+$ oci2aci  --debug example/oci-bundle
  aci image generated successfully.
 
 ```

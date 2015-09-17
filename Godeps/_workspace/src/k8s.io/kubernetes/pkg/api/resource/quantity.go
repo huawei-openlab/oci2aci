@@ -23,8 +23,8 @@ import (
 	"regexp"
 	"strings"
 
-	flag "github.com/spf13/pflag"
-	"speter.net/go/exp/math/dec/inf"
+	flag "github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/spf13/pflag"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/speter.net/go/exp/math/dec/inf"
 )
 
 // Quantity is a fixed-point representation of a number.

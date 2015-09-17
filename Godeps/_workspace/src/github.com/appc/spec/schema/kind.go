@@ -17,7 +17,7 @@ package schema
 import (
 	"encoding/json"
 
-	"github.com/appc/spec/schema/types"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/schema/types"
 )
 
 type Kind struct {

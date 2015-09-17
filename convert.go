@@ -23,9 +23,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/appc/spec/schema"
-	"github.com/appc/spec/schema/types"
-	"github.com/opencontainers/specs"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/schema"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/schema/types"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/opencontainers/specs"
 )
 
 // Entry point of oci2aci,

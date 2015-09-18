@@ -28,6 +28,10 @@ import (
 	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/opencontainers/specs"
 )
 
+type IsolatorCapSet struct {
+	Sets []string `json:"set"`
+}
+
 // Entry point of oci2aci,
 // First convert oci layout to aci layout, then build aci layout to image.
 func runOCI2ACI(path string, flagDebug bool) error {
@@ -124,7 +128,7 @@ func genManifest(path string) *schema.ImageManifest {
 		return nil
 	}
 
-	var spec specs.Spec
+	var spec specs.LinuxSpec
 	err = json.Unmarshal(config, &spec)
 	if err != nil {
 		return nil
@@ -212,6 +216,19 @@ func genManifest(path string) *schema.ImageManifest {
 	// 5.8 "ports"
 
 	// 5.9 "isolators"
+	if len(spec.Linux.Capabilities) != 0 {
+		isolatorCapSet := new(IsolatorCapSet)
+		isolatorCapSet.Sets = append(isolatorCapSet.Sets, spec.Linux.Capabilities...)
+
+		isolator := new(types.Isolator)
+		isolator.Name = types.ACIdentifier(types.LinuxCapabilitiesRetainSetName)
+		bytes, _ := json.Marshal(isolatorCapSet)
+
+		valueRaw := json.RawMessage(bytes)
+		isolator.ValueRaw = &valueRaw
+
+		app.Isolators = append(app.Isolators, *isolator)
+	}
 
 	// 6. "annotations"
 

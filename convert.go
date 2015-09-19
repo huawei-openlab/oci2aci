@@ -32,6 +32,10 @@ type IsolatorCapSet struct {
 	Sets []string `json:"set"`
 }
 
+type ResourceMem struct {
+	Limit string `json:"limit"`
+}
+
 // Entry point of oci2aci,
 // First convert oci layout to aci layout, then build aci layout to image.
 func runOCI2ACI(path string, flagDebug bool) error {
@@ -139,7 +143,6 @@ func genManifest(path string) *schema.ImageManifest {
 	if err != nil {
 		return nil
 	}
-
 	// Begin to convert runtime.json/config.json to manifest
 	m := new(schema.ImageManifest)
 
@@ -216,6 +219,19 @@ func genManifest(path string) *schema.ImageManifest {
 	// 5.8 "ports"
 
 	// 5.9 "isolators"
+	if runSpec.Linux.Resources != nil {
+		memLimt := new(ResourceMem)
+		memLimt.Limit = fmt.Sprintf("%d", runSpec.Linux.Resources.Memory.Limit/(1024*1024))
+		isolator := new(types.Isolator)
+		isolator.Name = types.ACIdentifier("resource/memory")
+		bytes, _ := json.Marshal(memLimt)
+
+		valueRaw := json.RawMessage(bytes)
+		isolator.ValueRaw = &valueRaw
+
+		app.Isolators = append(app.Isolators, *isolator)
+	}
+
 	if len(spec.Linux.Capabilities) != 0 {
 		isolatorCapSet := new(IsolatorCapSet)
 		isolatorCapSet.Sets = append(isolatorCapSet.Sets, spec.Linux.Capabilities...)

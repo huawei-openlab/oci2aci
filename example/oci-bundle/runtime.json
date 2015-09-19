@@ -38,5 +38,34 @@
             "source": "/volumes/testing",
             "options": ["rbind","rw"]
         }
+    },
+    "linux": {
+        "resources": {
+            "disableOOMKiller": false,
+            "memory": {
+                "limit": 0,
+                "reservation": 0,
+                "swap": 0,
+                "kernel": 0,
+                "swappiness": -1
+            },
+            "cpu": {
+                "shares": 0,
+                "quota": 0,
+                "period": 0,
+                "realtimeRuntime": 0,
+                "realtimePeriod": 0,
+                "cpus": "",
+                "mems": ""
+            },
+            "pids": {
+                "limit": 0
+            },
+            "hugepageLimits": null,
+            "network": {
+                "classId": "",
+                "priorities": null
+            }
+        }
     }
 }

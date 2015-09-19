@@ -18,7 +18,7 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/k8s.io/kubernetes/pkg/api/resource"
+	"k8s.io/kubernetes/pkg/api/resource"
 )
 
 var (

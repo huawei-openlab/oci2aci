@@ -4,8 +4,8 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/appc/spec/schema",
-			"Comment": "v0.6.1-44-gc2cc1fc",
-			"Rev": "c2cc1fcc9fbbb6a4288808fedd59fcfeb2dc144a"
+			"Comment": "v0.6.1-54-g5e2d1a9",
+			"Rev": "5e2d1a946aadf858aa32d72c6799f0c957b5bf70"
 		},
 		{
 			"ImportPath": "github.com/coreos/go-semver/semver",
@@ -13,7 +13,8 @@
 		},
 		{
 			"ImportPath": "github.com/opencontainers/specs",
-			"Rev": "9d59c53bbf117075424f8bbf82b605a5c59b53f7"
+			"Comment": "v0.1.1-16-g96bcd04",
+			"Rev": "96bcd043aa8a28f6f64c95ad61329765f01de1ba"
 		},
 		{
 			"ImportPath": "github.com/spf13/pflag",

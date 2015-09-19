@@ -4,7 +4,7 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/speter.net/go/exp/math/dec/inf"
+	"speter.net/go/exp/math/dec/inf"
 )
 
 var decRounderInputs = [...]struct {

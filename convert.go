@@ -216,9 +216,6 @@ func genManifest(path string) *schema.ImageManifest {
 	// 5.8 "ports"
 
 	// 5.9 "isolators"
-	if runSpec.Linux.Resources != nil {
-
-	}
 	if len(spec.Linux.Capabilities) != 0 {
 		isolatorCapSet := new(IsolatorCapSet)
 		isolatorCapSet.Sets = append(isolatorCapSet.Sets, spec.Linux.Capabilities...)

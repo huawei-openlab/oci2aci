@@ -36,6 +36,10 @@ type ResourceMem struct {
 	Limit string `json:"limit"`
 }
 
+type ResourceCPU struct {
+	Limit string `json:"limit"`
+}
+
 // Entry point of oci2aci,
 // First convert oci layout to aci layout, then build aci layout to image.
 func runOCI2ACI(path string, flagDebug bool) error {
@@ -220,16 +224,30 @@ func genManifest(path string) *schema.ImageManifest {
 
 	// 5.9 "isolators"
 	if runSpec.Linux.Resources != nil {
-		memLimt := new(ResourceMem)
-		memLimt.Limit = fmt.Sprintf("%d", runSpec.Linux.Resources.Memory.Limit/(1024*1024))
-		isolator := new(types.Isolator)
-		isolator.Name = types.ACIdentifier("resource/memory")
-		bytes, _ := json.Marshal(memLimt)
+		if runSpec.Linux.Resources.CPU.Quota != 0 {
+			cpuLimt := new(ResourceCPU)
+			cpuLimt.Limit = fmt.Sprintf("%dm", runSpec.Linux.Resources.CPU.Quota)
+			isolator := new(types.Isolator)
+			isolator.Name = types.ACIdentifier("resource/cpu")
+			bytes, _ := json.Marshal(cpuLimt)
 
-		valueRaw := json.RawMessage(bytes)
-		isolator.ValueRaw = &valueRaw
+			valueRaw := json.RawMessage(bytes)
+			isolator.ValueRaw = &valueRaw
 
-		app.Isolators = append(app.Isolators, *isolator)
+			app.Isolators = append(app.Isolators, *isolator)
+		}
+		if runSpec.Linux.Resources.Memory.Limit != 0 {
+			memLimt := new(ResourceMem)
+			memLimt.Limit = fmt.Sprintf("%dG", runSpec.Linux.Resources.Memory.Limit/(1024*1024*1024))
+			isolator := new(types.Isolator)
+			isolator.Name = types.ACIdentifier("resource/memory")
+			bytes, _ := json.Marshal(memLimt)
+
+			valueRaw := json.RawMessage(bytes)
+			isolator.ValueRaw = &valueRaw
+
+			app.Isolators = append(app.Isolators, *isolator)
+		}
 	}
 
 	if len(spec.Linux.Capabilities) != 0 {
@@ -267,7 +285,7 @@ func convertLayout(srcPath, dstPath string) error {
 
 	m := genManifest(srcPath)
 
-	bytes, err := json.Marshal(m)
+	bytes, err := json.MarshalIndent(m, "", "\t")
 	if err != nil {
 		return err
 	}

@@ -43,7 +43,7 @@
         "resources": {
             "disableOOMKiller": false,
             "memory": {
-                "limit": 0,
+                "limit": 10240000000,
                 "reservation": 0,
                 "swap": 0,
                 "kernel": 0,
@@ -51,7 +51,7 @@
             },
             "cpu": {
                 "shares": 0,
-                "quota": 0,
+                "quota": 50,
                 "period": 0,
                 "realtimeRuntime": 0,
                 "realtimePeriod": 0,

@@ -23,9 +23,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/appc/spec/schema"
-	"github.com/appc/spec/schema/types"
-	"github.com/opencontainers/specs"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/schema"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/schema/types"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/opencontainers/specs"
 )
 
 type IsolatorCapSet struct {
@@ -134,7 +134,7 @@ func genManifest(path string) *schema.ImageManifest {
 		return nil
 	}
 
-	var runSpec specs.RuntimeSpec
+	var runSpec specs.LinuxRuntimeSpec
 	err = json.Unmarshal(runtime, &runSpec)
 	if err != nil {
 		return nil
@@ -216,6 +216,9 @@ func genManifest(path string) *schema.ImageManifest {
 	// 5.8 "ports"
 
 	// 5.9 "isolators"
+	if runSpec.Linux.Resources != nil {
+
+	}
 	if len(spec.Linux.Capabilities) != 0 {
 		isolatorCapSet := new(IsolatorCapSet)
 		isolatorCapSet.Sets = append(isolatorCapSet.Sets, spec.Linux.Capabilities...)

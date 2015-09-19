@@ -30,7 +30,6 @@ or as involved as:
 
 	git clone git://github.com/huawei-openlab/oci2aci
 	cd oci2aci
-	go get -d ./...
 	make
 	
 ## Usage

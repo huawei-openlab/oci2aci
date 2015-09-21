@@ -28,7 +28,7 @@ Installation is simple as:
 
 or as involved as:
 
-	git clone git://github.com/huawei-openlab/oci2aci
+	git clone https://github.com/huawei-openlab/oci2aci.git
 	cd oci2aci
 	make
 	

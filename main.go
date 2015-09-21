@@ -19,6 +19,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+
+	"./convert"
 )
 
 var (
@@ -49,8 +51,10 @@ func main() {
 		return
 	}
 
-	if err := runOCI2ACI(args[0], *flagDebug); err != nil {
+	if err := convert.RunOCI2ACI(args[0], *flagDebug); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
+
+	return
 }

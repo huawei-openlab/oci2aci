@@ -11,10 +11,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package convert
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -40,9 +41,29 @@ type ResourceCPU struct {
 	Limit string `json:"limit"`
 }
 
+func Oci2aciImage(ociPath string) (string, error) {
+	if bValidate := validateOCIProc(ociPath); bValidate != true {
+		err := errors.New("Invalid oci bundle.")
+		return "", err
+	}
+
+	dirWork := createWorkDir()
+	// First, convert layout
+	err := convertLayout(ociPath, dirWork)
+	if err != nil {
+		return "", err
+	}
+
+	// Second, build image
+	aciImgPath, err := buildACI(dirWork)
+
+	return aciImgPath, err
+
+}
+
 // Entry point of oci2aci,
 // First convert oci layout to aci layout, then build aci layout to image.
-func runOCI2ACI(path string, flagDebug bool) error {
+func RunOCI2ACI(path string, flagDebug bool) error {
 	if flagDebug {
 		InitDebug()
 	}
@@ -61,14 +82,14 @@ func runOCI2ACI(path string, flagDebug bool) error {
 
 	}
 	// Second, build image
-	err = buildACI(dirWork)
+	imgPath, err := buildACI(dirWork)
 	if err != nil {
 		if debugEnabled {
 			log.Printf("Generate aci image failed!")
 		}
 	} else {
 		if debugEnabled {
-			log.Printf("aci image generated successfully.")
+			log.Printf("aci image:%v generated successfully.", imgPath)
 		}
 	}
 

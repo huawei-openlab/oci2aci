@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package convert
 
 import (
 	"log"
@@ -19,13 +19,15 @@ import (
 	"path/filepath"
 )
 
-func buildACI(dir string) error {
+func buildACI(dir string) (string, error) {
 	imageName, err := filepath.Abs(dir)
 	if err != nil {
 		log.Fatalf("err: %v", err)
 	}
 	imageName += ".aci"
-	return createACI(dir, imageName)
+	err = createACI(dir, imageName)
+
+	return imageName, err
 }
 
 func createACI(dir string, imageName string) error {

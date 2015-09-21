@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"os"
 
-	"./convert"
+	"github.com/huawei-openlab/oci2aci/convert"
 )
 
 var (

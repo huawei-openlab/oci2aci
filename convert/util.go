@@ -16,7 +16,6 @@ package convert
 import (
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -62,9 +61,9 @@ func InitDebug() {
 }
 
 func run(cmd *exec.Cmd) error {
-	if debugEnabled {
+	/*if debugEnabled {
 		log.Printf("run: %v %v", cmd.Path, cmd.Args)
-	}
+	}*/
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
 		return errorf(err.Error())

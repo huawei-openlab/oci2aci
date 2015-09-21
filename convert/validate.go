@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -50,12 +51,12 @@ func validateOCIProc(path string) bool {
 	err := validateBundle(path)
 	if err != nil {
 		if debugEnabled {
-			fmt.Printf("%s: invalid oci bundle: %v\n", path, err)
+			log.Printf("%s: invalid oci bundle: %v\n", path, err)
 		}
 		bRes = false
 	} else {
 		if debugEnabled {
-			fmt.Printf("%s: valid oci bundle\n", path)
+			log.Printf("%s: valid oci bundle\n", path)
 		}
 		bRes = true
 	}

@@ -85,7 +85,7 @@ func RunOCI2ACI(path string, flagDebug bool) error {
 	imgPath, err := buildACI(dirWork)
 	if err != nil {
 		if debugEnabled {
-			log.Printf("Generate aci image failed!")
+			log.Printf("Generate aci image failed:%v", err)
 		}
 	} else {
 		if debugEnabled {

@@ -41,6 +41,22 @@ type ResourceCPU struct {
 	Limit string `json:"limit"`
 }
 
+func Oci2aciManifest(ociPath string) (string, error) {
+	if bValidate := validateOCIProc(ociPath); bValidate != true {
+		err := errors.New("Invalid oci bundle.")
+		return "", err
+	}
+
+	dirWork := createWorkDir()
+	// convert layout
+	aciManifestPath, err := convertLayout(ociPath, dirWork)
+	if err != nil {
+		return "", err
+	}
+	return aciManifestPath, err
+
+}
+
 func Oci2aciImage(ociPath string) (string, error) {
 	if bValidate := validateOCIProc(ociPath); bValidate != true {
 		err := errors.New("Invalid oci bundle.")
@@ -49,7 +65,7 @@ func Oci2aciImage(ociPath string) (string, error) {
 
 	dirWork := createWorkDir()
 	// First, convert layout
-	err := convertLayout(ociPath, dirWork)
+	_, err := convertLayout(ociPath, dirWork)
 	if err != nil {
 		return "", err
 	}
@@ -74,14 +90,13 @@ func RunOCI2ACI(path string, flagDebug bool) error {
 
 	dirWork := createWorkDir()
 	// First, convert layout
-	err := convertLayout(path, dirWork)
+	manifestPath, err := convertLayout(path, dirWork)
 	if err != nil {
 		if debugEnabled {
 			log.Printf("Conversion from oci to aci layout failed: %v", err)
 		}
 
 	} else {
-		manifestPath := dirWork + "/manifest"
 		if debugEnabled {
 			log.Printf("Manifest:%v generated successfully.", manifestPath)
 		}
@@ -302,22 +317,22 @@ func genManifest(path string) *schema.ImageManifest {
 }
 
 // Convert OCI layout to ACI layout
-func convertLayout(srcPath, dstPath string) error {
+func convertLayout(srcPath, dstPath string) (string, error) {
 	src, _ := filepath.Abs(srcPath)
 	src += "/rootfs"
 	if err := run(exec.Command("cp", "-rf", src, dstPath)); err != nil {
-		return err
+		return "", err
 	}
 
 	m := genManifest(srcPath)
 
 	bytes, err := json.MarshalIndent(m, "", "\t")
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	manifestPath := dstPath + "/manifest"
 
 	ioutil.WriteFile(manifestPath, bytes, 0644)
-	return nil
+	return manifestPath, nil
 }

@@ -80,6 +80,11 @@ func RunOCI2ACI(path string, flagDebug bool) error {
 			log.Printf("Conversion from oci to aci layout failed: %v", err)
 		}
 
+	} else {
+		manifestPath := dirWork + "/manifest"
+		if debugEnabled {
+			log.Printf("Manifest:%v generated successfully.", manifestPath)
+		}
 	}
 	// Second, build image
 	imgPath, err := buildACI(dirWork)
@@ -89,7 +94,7 @@ func RunOCI2ACI(path string, flagDebug bool) error {
 		}
 	} else {
 		if debugEnabled {
-			log.Printf("aci image:%v generated successfully.", imgPath)
+			log.Printf("Image:%v generated successfully.", imgPath)
 		}
 	}
 

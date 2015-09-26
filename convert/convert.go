@@ -180,12 +180,18 @@ func genManifest(path string) *schema.ImageManifest {
 	var spec specs.LinuxSpec
 	err = json.Unmarshal(config, &spec)
 	if err != nil {
+		if debugEnabled {
+			log.Printf("Unmarshal config.json failed: %v", err)
+		}
 		return nil
 	}
 
 	var runSpec specs.LinuxRuntimeSpec
 	err = json.Unmarshal(runtime, &runSpec)
 	if err != nil {
+		if debugEnabled {
+			log.Printf("Unmarshal runtime.json failed: %v", err)
+		}
 		return nil
 	}
 	// Begin to convert runtime.json/config.json to manifest

@@ -1,30 +1,30 @@
 {
-    "version": "0.0.1",
+    "version": "0.1.0",
     "platform": {
         "os": "linux",
         "arch": "amd64"
     },
     "process": {
-        "terminal": false,
+        "terminal": true,
         "user": {
             "uid": 0,
-            "gid": 0
+            "gid": 0,
+            "additionalGids": null
         },
         "args": [
-            "/usr/bin",
-            "bash"
+            "/bin/bash"
         ],
         "env": [
             "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             "TERM=xterm"
         ],
-        "cwd": "/testtool"
+        "cwd": ""
     },
     "root": {
-        "path": "./rootfs_rootconfig",
+        "path": "rootfs",
         "readonly": true
     },
-    "hostname": "bash",
+    "hostname": "shell",
     "mounts": [
         {
             "name": "proc",
@@ -39,8 +39,20 @@
             "path": "/dev/pts"
         },
         {
-            "name": "data",
-            "path": "/data"
+            "name": "shm",
+            "path": "/dev/shm"
+        },
+        {
+            "name": "mqueue",
+            "path": "/dev/mqueue"
+        },
+        {
+            "name": "sysfs",
+            "path": "/sys"
+        },
+        {
+            "name": "cgroup",
+            "path": "/sys/fs/cgroup"
         }
     ],
     "linux": {

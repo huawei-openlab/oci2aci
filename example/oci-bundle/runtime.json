@@ -71,12 +71,12 @@
     "hooks": {
         "prestart": [
             {
-                "path": "/bin/bash"
+                "path": "/bin/test"
             }
         ],
         "poststop": [
             {
-                "path": "/bin/bash"
+                "path": "/bin/test"
             }
         ]
     },

@@ -169,11 +169,17 @@ func genManifest(path string) *schema.ImageManifest {
 
 	runtime, err := ioutil.ReadFile(runtimePath)
 	if err != nil {
+		if debugEnabled {
+			log.Printf("Open file runtime.json failed: %v", err)
+                }
 		return nil
 	}
 
 	config, err := ioutil.ReadFile(configPath)
 	if err != nil {
+		if debugEnabled {
+			log.Printf("Open file config.json failed: %v", err)
+                }
 		return nil
 	}
 

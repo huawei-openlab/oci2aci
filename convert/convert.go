@@ -24,8 +24,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/coreos/rkt/Godeps/_workspace/src/github.com/appc/spec/schema"
-	"github.com/coreos/rkt/Godeps/_workspace/src/github.com/appc/spec/schema/types"
+	"github.com/appc/spec/schema"
+	"github.com/appc/spec/schema/types"
 	"github.com/opencontainers/specs"
 )
 
@@ -270,6 +270,7 @@ func genManifest(path string) *schema.ImageManifest {
 		mount := new(types.MountPoint)
 		mount.Name = types.ACName(spec.Mounts[index].Name)
 		mount.Path = spec.Mounts[index].Path
+		mount.ReadOnly = true
 		app.MountPoints = append(app.MountPoints, *mount)
 	}
 

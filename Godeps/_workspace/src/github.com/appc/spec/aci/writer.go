@@ -21,7 +21,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/schema"
+	"github.com/appc/spec/schema"
 )
 
 // ArchiveWriter writes App Container Images. Users wanting to create an ACI or

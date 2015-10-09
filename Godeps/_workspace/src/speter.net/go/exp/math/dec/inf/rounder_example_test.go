@@ -5,7 +5,7 @@ import (
 	"os"
 	"text/tabwriter"
 
-	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/speter.net/go/exp/math/dec/inf"
+	"speter.net/go/exp/math/dec/inf"
 )
 
 // This example displays the results of Dec.Round with each of the Rounders.

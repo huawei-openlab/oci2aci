@@ -204,13 +204,13 @@ func genManifest(path string) *schema.ImageManifest {
 	m := new(schema.ImageManifest)
 
 	// 1. Assemble "acKind" field
-	m.ACKind = "ImageManifest"
+	m.ACKind = schema.ImageManifestKind
 
 	// 2. Assemble "acVersion" field
 	m.ACVersion = schema.AppContainerVersion
 
 	// 3. Assemble "name" field
-	m.Name = "oci"
+	m.Name = types.ACIdentifier("oci")
 
 	// 4. Assemble "labels" field
 	// 4.1 "version"

@@ -19,7 +19,7 @@ package resource_test
 import (
 	"fmt"
 
-	"k8s.io/kubernetes/pkg/api/resource"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/k8s.io/kubernetes/pkg/api/resource"
 )
 
 func ExampleFormat() {

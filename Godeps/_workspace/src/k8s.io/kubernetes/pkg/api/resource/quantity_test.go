@@ -22,8 +22,8 @@ import (
 	"testing"
 
 	fuzz "github.com/google/gofuzz"
-	"github.com/spf13/pflag"
-	"speter.net/go/exp/math/dec/inf"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/spf13/pflag"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/speter.net/go/exp/math/dec/inf"
 )
 
 var (

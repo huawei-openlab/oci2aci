@@ -12,31 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package schema
+package lastditch
 
 import (
 	"encoding/json"
-
-	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/schema/types"
 )
 
-type Kind struct {
-	ACVersion types.SemVer `json:"acVersion"`
-	ACKind    types.ACKind `json:"acKind"`
+type Labels []Label
+
+// a type just to avoid a recursion during unmarshalling
+type labels Labels
+
+type Label struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
-type kind Kind
-
-func (k *Kind) UnmarshalJSON(data []byte) error {
-	nk := kind{}
-	err := json.Unmarshal(data, &nk)
-	if err != nil {
+func (l *Labels) UnmarshalJSON(data []byte) error {
+	var jl labels
+	if err := json.Unmarshal(data, &jl); err != nil {
 		return err
 	}
-	*k = Kind(nk)
+	*l = Labels(jl)
 	return nil
-}
-
-func (k Kind) MarshalJSON() ([]byte, error) {
-	return json.Marshal(kind(k))
 }

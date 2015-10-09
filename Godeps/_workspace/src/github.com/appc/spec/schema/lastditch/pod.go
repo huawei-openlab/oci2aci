@@ -17,8 +17,8 @@ package lastditch
 import (
 	"encoding/json"
 
-	"github.com/appc/spec/schema"
-	"github.com/appc/spec/schema/types"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/schema"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/schema/types"
 )
 
 type PodManifest struct {
@@ -30,13 +30,14 @@ type PodManifest struct {
 type AppList []RuntimeApp
 
 type RuntimeApp struct {
-	Name  string `json:"name"`
-	Image Image  `json:"image"`
+	Name  string       `json:"name"`
+	Image RuntimeImage `json:"image"`
 }
 
-type Image struct {
-	Name string `json:"name"`
-	ID   string `json:"id"`
+type RuntimeImage struct {
+	Name   string `json:"name"`
+	ID     string `json:"id"`
+	Labels Labels `json:"labels,omitempty"`
 }
 
 // a type just to avoid a recursion during unmarshalling

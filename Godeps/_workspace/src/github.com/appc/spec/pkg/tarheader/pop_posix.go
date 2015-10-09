@@ -21,7 +21,7 @@ import (
 	"os"
 	"syscall"
 
-	"github.com/appc/spec/pkg/device"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/pkg/device"
 )
 
 func init() {

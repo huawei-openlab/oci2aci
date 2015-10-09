@@ -4,23 +4,23 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/appc/spec/aci",
-			"Comment": "v0.6.1-72-gcdab322",
-			"Rev": "cdab32257655b57e55f121badd2e725926a420b9"
+			"Comment": "v0.7.1-16-g5a7af19",
+			"Rev": "5a7af198346710d6a432b109b4ddda1c11aad963"
 		},
 		{
 			"ImportPath": "github.com/appc/spec/pkg/device",
-			"Comment": "v0.6.1-72-gcdab322",
-			"Rev": "cdab32257655b57e55f121badd2e725926a420b9"
+			"Comment": "v0.7.1-16-g5a7af19",
+			"Rev": "5a7af198346710d6a432b109b4ddda1c11aad963"
 		},
 		{
 			"ImportPath": "github.com/appc/spec/pkg/tarheader",
-			"Comment": "v0.6.1-72-gcdab322",
-			"Rev": "cdab32257655b57e55f121badd2e725926a420b9"
+			"Comment": "v0.7.1-16-g5a7af19",
+			"Rev": "5a7af198346710d6a432b109b4ddda1c11aad963"
 		},
 		{
 			"ImportPath": "github.com/appc/spec/schema",
-			"Comment": "v0.6.1-72-gcdab322",
-			"Rev": "cdab32257655b57e55f121badd2e725926a420b9"
+			"Comment": "v0.7.1-16-g5a7af19",
+			"Rev": "5a7af198346710d6a432b109b4ddda1c11aad963"
 		},
 		{
 			"ImportPath": "github.com/coreos/go-semver/semver",
@@ -28,8 +28,8 @@
 		},
 		{
 			"ImportPath": "github.com/opencontainers/specs",
-			"Comment": "v0.1.1-16-g96bcd04",
-			"Rev": "96bcd043aa8a28f6f64c95ad61329765f01de1ba"
+			"Comment": "v0.1.1-59-gcfa992b",
+			"Rev": "cfa992b220242de408dc07334a2e4c2114469b83"
 		},
 		{
 			"ImportPath": "github.com/spf13/pflag",

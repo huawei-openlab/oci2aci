@@ -17,14 +17,15 @@ package lastditch
 import (
 	"encoding/json"
 
-	"github.com/appc/spec/schema"
-	"github.com/appc/spec/schema/types"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/schema"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/schema/types"
 )
 
 type ImageManifest struct {
 	ACVersion string `json:"acVersion"`
 	ACKind    string `json:"acKind"`
 	Name      string `json:"name"`
+	Labels    Labels `json:"labels,omitempty"`
 }
 
 // a type just to avoid a recursion during unmarshalling

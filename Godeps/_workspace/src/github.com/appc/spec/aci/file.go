@@ -29,7 +29,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/appc/spec/schema"
+	"github.com/huawei-openlab/oci2aci/Godeps/_workspace/src/github.com/appc/spec/schema"
 )
 
 type FileType string

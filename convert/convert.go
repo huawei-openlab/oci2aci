@@ -233,6 +233,14 @@ func genManifest(path string) *schema.ImageManifest {
 	app := new(types.App)
 	// 5.1 "exec"
 	app.Exec = spec.Process.Args
+	if len(app.Exec) == 0 {
+		app.Exec = append(app.Exec, "/bin/sh")
+	}
+
+	if len(app.Exec) > 0 && !filepath.IsAbs(app.Exec[0]) {
+		app.Exec[0] = "/bin/" + app.Exec[0]
+	}
+
 	// 5.2 "user"
 	app.User = fmt.Sprintf("%d", spec.Process.User.UID)
 	// 5.3 "group"
@@ -245,6 +253,9 @@ func genManifest(path string) *schema.ImageManifest {
 		event.Exec = append(event.Exec, runSpec.Hooks.Prestart[index].Args...)
 		event.Exec = append(event.Exec, runSpec.Hooks.Prestart[index].Env...)
 	}
+	if len(event.Exec) == 0 {
+		event.Exec = append(event.Exec, "/bin/ls")
+	}
 	app.EventHandlers = append(app.EventHandlers, *event)
 	event = new(types.EventHandler)
 	event.Name = "post-stop"
@@ -252,6 +263,9 @@ func genManifest(path string) *schema.ImageManifest {
 		event.Exec = append(event.Exec, runSpec.Hooks.Poststop[index].Path)
 		event.Exec = append(event.Exec, runSpec.Hooks.Poststop[index].Args...)
 		event.Exec = append(event.Exec, runSpec.Hooks.Poststop[index].Env...)
+	}
+	if len(event.Exec) == 0 {
+		event.Exec = append(event.Exec, "/bin/ls")
 	}
 	app.EventHandlers = append(app.EventHandlers, *event)
 	// 5.5 "workingDirectory"
@@ -270,7 +284,7 @@ func genManifest(path string) *schema.ImageManifest {
 		mount := new(types.MountPoint)
 		mount.Name = types.ACName(spec.Mounts[index].Name)
 		mount.Path = spec.Mounts[index].Path
-		mount.ReadOnly = true
+		mount.ReadOnly = false
 		app.MountPoints = append(app.MountPoints, *mount)
 	}
 

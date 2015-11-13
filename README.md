@@ -68,7 +68,7 @@ $ oci2aci  --debug example/oci-bundle
 $ actool --debug validate /tmp/oci2aci796486541.aci
 /tmp/oci2aci796486541.aci: valid app container image
 
-$ rkt run /tmp/oci2aci796486541.aci --insecure-skip-verify --mds-register=false --volume proc,kind=host,source=/bin --volume dev,kind=host,source=/bin --volume devpts,kind=host,source=/bin --volume shm,kind=host,source=/bin --volume mqueue,kind=host,source=/bin --volume sysfs,kind=host,source=/bin --volume cgroup,kind=host,source=/bin
+$ rkt run /tmp/oci2aci796486541.aci --interactive --insecure-skip-verify --mds-register=false --volume proc,kind=host,source=/bin --volume dev,kind=host,source=/bin --volume devpts,kind=host,source=/bin --volume shm,kind=host,source=/bin --volume mqueue,kind=host,source=/bin --volume sysfs,kind=host,source=/bin --volume cgroup,kind=host,source=/bin
 2015/09/28 09:45:26 Preparing stage1
 2015/09/28 09:45:26 Writing image manifest
 2015/09/28 09:45:26 Loading image sha512-ed1404273ed6ab8e8c7a323b994e8ce6e24d0dd5b17d2480021d52cdc87de8f1

@@ -24,13 +24,16 @@ rootfs/
 
 Installation is simple as:
 
-	go get github.com/huawei-openlab/oci2aci
+	$ go get github.com/huawei-openlab/oci2aci
 
 or as involved as:
 
-	git clone https://github.com/huawei-openlab/oci2aci.git
-	cd oci2aci
-	make
+	$ cd $GOPATH/src/github.com/
+	$ mkdir huawei-openlab
+	$ cd huawei-openlab
+	$ git clone https://github.com/huawei-openlab/oci2aci.git
+	$ cd oci2aci
+	$ make
 	
 ## Usage
 
@@ -53,13 +56,15 @@ You can use oci2aci as a CLI tool directly to convert a oci-bundle to aci image,
 ## Example
 
 Examples of oci2aci illustrated as below:
+
+- An example of invalid oci bundle
 ```
-// An example of invalid oci bundle
 $ oci2aci  --debug test
 2015/09/28 09:46:05 test: invalid oci bundle: error accessing bundle: stat test: no such file or directory
 2015/09/28 09:46:05 Conversion stop.
-
-// An example of valid oci bundle
+```
+- An example of valid oci bundle
+```
 $ oci2aci  --debug example/oci-bundle
 2015/09/28 09:42:14 example/oci-bundle/: valid oci bundle
 2015/09/28 09:42:14 Manifest:/tmp/oci2aci796486541/manifest generated successfully.
@@ -81,4 +86,12 @@ $ rkt run /tmp/oci2aci796486541.aci --interactive --insecure-skip-verify --mds-r
 [1016397.579740] example[6]: Hello, I am running in the rkt container......
 [1016397.581921] example[8]: Clean the resource for the rkt container......Done!
 
+```
+- Specify output directory for generated aci image
+```
+$ ./oci2aci --debug example/oci-bundle/ oci.aci
+2015/11/14 15:56:43 example/oci-bundle/: valid oci bundle
+2015/11/14 15:56:43 Manifest:/tmp/oci2aci406724597/manifest generated successfully.
+2015/11/14 15:56:43 Image:/tmp/oci2aci406724597.aci generated successfully.
+2015/11/14 15:56:43 Image:oci.aci generated successfully
 ```

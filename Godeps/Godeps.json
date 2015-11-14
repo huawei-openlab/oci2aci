@@ -4,23 +4,27 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/appc/spec/aci",
-			"Comment": "v0.7.1-16-g5a7af19",
-			"Rev": "5a7af198346710d6a432b109b4ddda1c11aad963"
+			"Comment": "v0.7.1-21-g17599b9",
+			"Rev": "17599b9e47c4aea746e70b9b89509077f79a4bc6"
 		},
 		{
 			"ImportPath": "github.com/appc/spec/pkg/device",
-			"Comment": "v0.7.1-16-g5a7af19",
-			"Rev": "5a7af198346710d6a432b109b4ddda1c11aad963"
+			"Comment": "v0.7.1-21-g17599b9",
+			"Rev": "17599b9e47c4aea746e70b9b89509077f79a4bc6"
 		},
 		{
 			"ImportPath": "github.com/appc/spec/pkg/tarheader",
-			"Comment": "v0.7.1-16-g5a7af19",
-			"Rev": "5a7af198346710d6a432b109b4ddda1c11aad963"
+			"Comment": "v0.7.1-21-g17599b9",
+			"Rev": "17599b9e47c4aea746e70b9b89509077f79a4bc6"
 		},
 		{
 			"ImportPath": "github.com/appc/spec/schema",
-			"Comment": "v0.7.1-16-g5a7af19",
-			"Rev": "5a7af198346710d6a432b109b4ddda1c11aad963"
+			"Comment": "v0.7.1-21-g17599b9",
+			"Rev": "17599b9e47c4aea746e70b9b89509077f79a4bc6"
+		},
+		{
+			"ImportPath": "github.com/camlistore/camlistore/pkg/errorutil",
+			"Rev": "afd28ae2796eef141bd53823ba013c6b470f7349"
 		},
 		{
 			"ImportPath": "github.com/coreos/go-semver/semver",
@@ -28,8 +32,8 @@
 		},
 		{
 			"ImportPath": "github.com/opencontainers/specs",
-			"Comment": "v0.1.1-59-gcfa992b",
-			"Rev": "cfa992b220242de408dc07334a2e4c2114469b83"
+			"Comment": "v0.1.1-76-g46d949e",
+			"Rev": "46d949ea81080c5f60dfb72ee91468b1e9fb2998"
 		},
 		{
 			"ImportPath": "github.com/spf13/pflag",

@@ -284,6 +284,16 @@ func genManifest(path string) *schema.ImageManifest {
 		mount := new(types.MountPoint)
 		mount.Name = types.ACName(spec.Mounts[index].Name)
 		mount.Path = spec.Mounts[index].Path
+		/*tmpPath := path + "rootfs" + mount.Path
+		fi, err := os.Stat(tmpPath)
+		if err != nil {
+			continue
+		}
+		if fi.IsDir() {
+
+		}*/
+		mount.Path = "/bin"
+
 		mount.ReadOnly = false
 		app.MountPoints = append(app.MountPoints, *mount)
 	}

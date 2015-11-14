@@ -46,12 +46,12 @@ func main() {
 	flag.Parse()
 	args := flag.Args()
 
-	if len(args) < 1 {
+	if len(args) < 1 || len(args) > 2 {
 		usage()
 		return
 	}
 
-	if err := convert.RunOCI2ACI(args[0], *flagDebug); err != nil {
+	if err := convert.RunOCI2ACI(args, *flagDebug); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}

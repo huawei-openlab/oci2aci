@@ -79,18 +79,33 @@ func Oci2aciImage(ociPath string) (string, error) {
 
 // Entry point of oci2aci,
 // First convert oci layout to aci layout, then build aci layout to image.
-func RunOCI2ACI(path string, flagDebug bool) error {
+func RunOCI2ACI(args []string, flagDebug bool) error {
+	var srcPath, dstPath string
+
+	srcPath = args[0]
+	if len(args) == 1 {
+		dstPath = ""
+	} else {
+		dstPath = args[1]
+		ext := filepath.Ext(dstPath)
+		if ext != schema.ACIExtension {
+			errStr := fmt.Sprintf("Extension must be %s (given %s)", schema.ACIExtension, ext)
+			err := errors.New(errStr)
+			return err
+		}
+	}
+
 	if flagDebug {
 		InitDebug()
 	}
-	if bValidate := validateOCIProc(path); bValidate != true {
+	if bValidate := validateOCIProc(srcPath); bValidate != true {
 		log.Printf("Conversion stop.")
 		return nil
 	}
 
 	dirWork := createWorkDir()
 	// First, convert layout
-	manifestPath, err := convertLayout(path, dirWork)
+	manifestPath, err := convertLayout(srcPath, dirWork)
 	if err != nil {
 		if debugEnabled {
 			log.Printf("Conversion from oci to aci layout failed: %v", err)
@@ -111,6 +126,20 @@ func RunOCI2ACI(path string, flagDebug bool) error {
 		if debugEnabled {
 			log.Printf("Image:%v generated successfully.", imgPath)
 		}
+	}
+
+	if dstPath != "" {
+		if err = run(exec.Command("cp", imgPath, dstPath)); err != nil {
+			if debugEnabled {
+				log.Printf("Store aci image failed:%v", err)
+			}
+		} else {
+			if debugEnabled {
+				log.Printf("Image:%v generated successfully", dstPath)
+			}
+
+		}
+
 	}
 
 	return nil
@@ -284,15 +313,6 @@ func genManifest(path string) *schema.ImageManifest {
 		mount := new(types.MountPoint)
 		mount.Name = types.ACName(spec.Mounts[index].Name)
 		mount.Path = spec.Mounts[index].Path
-		/*tmpPath := path + "rootfs" + mount.Path
-		fi, err := os.Stat(tmpPath)
-		if err != nil {
-			continue
-		}
-		if fi.IsDir() {
-
-		}*/
-		mount.Path = "/bin"
 
 		mount.ReadOnly = false
 		app.MountPoints = append(app.MountPoints, *mount)

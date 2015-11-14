@@ -98,7 +98,7 @@
                 "reservation": 0,
                 "swap": 0,
                 "kernel": 0,
-                "swappiness": -1
+                "swappiness": 0
             },
             "cpu": {
                 "shares": 0,

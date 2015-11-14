@@ -41,6 +41,8 @@ type ResourceCPU struct {
 	Limit string `json:"limit"`
 }
 
+var manifestName string
+
 func Oci2aciManifest(ociPath string) (string, error) {
 	if bValidate := validateOCIProc(ociPath); bValidate != true {
 		err := errors.New("Invalid oci bundle.")
@@ -79,7 +81,7 @@ func Oci2aciImage(ociPath string) (string, error) {
 
 // Entry point of oci2aci,
 // First convert oci layout to aci layout, then build aci layout to image.
-func RunOCI2ACI(args []string, flagDebug bool) error {
+func RunOCI2ACI(args []string, flagDebug bool, flagName string) error {
 	var srcPath, dstPath string
 
 	srcPath = args[0]
@@ -98,6 +100,13 @@ func RunOCI2ACI(args []string, flagDebug bool) error {
 	if flagDebug {
 		InitDebug()
 	}
+
+	manifestName = flagName
+	_, err := types.NewACName(manifestName)
+	if err != nil {
+		return err
+	}
+
 	if bValidate := validateOCIProc(srcPath); bValidate != true {
 		log.Printf("Conversion stop.")
 		return nil
@@ -239,7 +248,7 @@ func genManifest(path string) *schema.ImageManifest {
 	m.ACVersion = schema.AppContainerVersion
 
 	// 3. Assemble "name" field
-	m.Name = types.ACIdentifier("oci")
+	m.Name = types.ACIdentifier(manifestName)
 
 	// 4. Assemble "labels" field
 	// 4.1 "version"

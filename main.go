@@ -25,6 +25,7 @@ import (
 
 var (
 	flagDebug = flag.Bool("debug", false, "Enables debug messages")
+	flagName  = flag.String("name", "oci", "Specify the name field of aci manifest")
 )
 
 func usage() {
@@ -51,7 +52,7 @@ func main() {
 		return
 	}
 
-	if err := convert.RunOCI2ACI(args, *flagDebug); err != nil {
+	if err := convert.RunOCI2ACI(args, *flagDebug, *flagName); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}

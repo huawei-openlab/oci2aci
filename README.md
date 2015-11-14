@@ -50,6 +50,7 @@ VERSION:
 
 FLAGS:
    -debug=false: Enables debug messages
+   -name="oci": Specify the name field of aci manifest
 
 ```
 You can use oci2aci as a CLI tool directly to convert a oci-bundle to aci image, furthermore, you can use oci2aci as a external function in your program by importing package "github.com/huawei-openlab/oci2aci/convert"

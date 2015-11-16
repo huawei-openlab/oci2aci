@@ -271,12 +271,20 @@ func genManifest(path string) *schema.ImageManifest {
 	app := new(types.App)
 	// 5.1 "exec"
 	app.Exec = spec.Process.Args
-	if len(app.Exec) == 0 {
-		app.Exec = append(app.Exec, "/bin/sh")
-	}
 
-	if len(app.Exec) > 0 && !filepath.IsAbs(app.Exec[0]) {
-		app.Exec[0] = "/bin/" + app.Exec[0]
+	prefixDir := ""
+	//var exeStr string
+	if app.Exec == nil {
+		app.Exec = append(app.Exec, "/bin/sh")
+	} else {
+		if !filepath.IsAbs(app.Exec[0]) {
+			if spec.Process.Cwd == "" {
+				prefixDir = "/"
+			} else {
+				prefixDir = spec.Process.Cwd
+			}
+		}
+		app.Exec[0] = prefixDir + app.Exec[0]
 	}
 
 	// 5.2 "user"
@@ -292,7 +300,8 @@ func genManifest(path string) *schema.ImageManifest {
 		event.Exec = append(event.Exec, runSpec.Hooks.Prestart[index].Env...)
 	}
 	if len(event.Exec) == 0 {
-		event.Exec = append(event.Exec, "/bin/ls")
+		event.Exec = append(event.Exec, "/bin/echo")
+		event.Exec = append(event.Exec, "-n")
 	}
 	app.EventHandlers = append(app.EventHandlers, *event)
 	event = new(types.EventHandler)
@@ -303,7 +312,8 @@ func genManifest(path string) *schema.ImageManifest {
 		event.Exec = append(event.Exec, runSpec.Hooks.Poststop[index].Env...)
 	}
 	if len(event.Exec) == 0 {
-		event.Exec = append(event.Exec, "/bin/ls")
+		event.Exec = append(event.Exec, "/bin/echo")
+		event.Exec = append(event.Exec, "-n")
 	}
 	app.EventHandlers = append(app.EventHandlers, *event)
 	// 5.5 "workingDirectory"

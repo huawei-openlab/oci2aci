@@ -24,16 +24,22 @@ rootfs/
 
 Installation is simple as:
 
-	$ go get github.com/huawei-openlab/oci2aci
+```bash
+go get github.com/huawei-openlab/oci2aci
+```
 
 or as involved as:
 
-	$ cd $GOPATH/src/github.com/
-	$ mkdir huawei-openlab
-	$ cd huawei-openlab
-	$ git clone https://github.com/huawei-openlab/oci2aci.git
-	$ cd oci2aci
-	$ make
+```bash
+# create a 'github.com/huawei-openlab' in your GOPATH/src
+cd $GOPATH/src/github.com/
+mkdir huawei-openlab
+cd huawei-openlab
+git clone https://github.com/huawei-openlab/oci2aci.git
+cd oci2aci
+make
+sudo make install
+```
 	
 ## Usage
 

@@ -25,7 +25,7 @@ import (
 
 var (
 	flagDebug = flag.Bool("debug", false, "Enables debug messages")
-	flagName  = flag.String("name", "oci", "Specify the name field of aci manifest")
+	flagName  = flag.String("name", "oci", "Specify ACName of aci manifest")
 )
 
 func usage() {

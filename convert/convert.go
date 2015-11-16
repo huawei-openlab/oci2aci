@@ -136,7 +136,7 @@ func RunOCI2ACI(args []string, flagDebug bool, flagName string) error {
 			log.Printf("Image:%v generated successfully.", imgPath)
 		}
 	}
-
+	// Save aci image to the path user specified
 	if dstPath != "" {
 		if err = run(exec.Command("cp", imgPath, dstPath)); err != nil {
 			if debugEnabled {
@@ -322,7 +322,6 @@ func genManifest(path string) *schema.ImageManifest {
 		mount := new(types.MountPoint)
 		mount.Name = types.ACName(spec.Mounts[index].Name)
 		mount.Path = spec.Mounts[index].Path
-
 		mount.ReadOnly = false
 		app.MountPoints = append(app.MountPoints, *mount)
 	}

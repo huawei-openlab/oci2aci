@@ -22,6 +22,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/Sirupsen/logrus"
 )
 
 const (
@@ -48,16 +50,11 @@ type validateRes struct {
 
 func validateOCIProc(path string) bool {
 	var bRes bool
-	err := validateBundle(path)
-	if err != nil {
-		if debugEnabled {
-			log.Printf("%s: invalid oci bundle: %v\n", path, err)
-		}
+	if err := validateBundle(path); err != nil {
+		logrus.Debugf("%s: invalid oci bundle: %v\n", path, err)
 		bRes = false
 	} else {
-		if debugEnabled {
-			log.Printf("%s: valid oci bundle\n", path)
-		}
+		logrus.Debugf("%s: valid oci bundle: %v\n", path)
 		bRes = true
 	}
 	return bRes

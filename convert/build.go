@@ -24,6 +24,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/appc/spec/aci"
 	"github.com/appc/spec/schema"
 )
@@ -31,7 +32,7 @@ import (
 func buildACI(dir string) (string, error) {
 	imageName, err := filepath.Abs(dir)
 	if err != nil {
-		log.Fatalf("err: %v", err)
+		logrus.Fatalf("err: %v", err)
 	}
 	imageName += ".aci"
 	err = createACI(dir, imageName)
@@ -55,9 +56,7 @@ func createACI(dir string, imageName string) error {
 
 	if err := aci.ValidateLayout(root); err != nil {
 		if e, ok := err.(aci.ErrOldVersion); ok {
-			if debugEnabled {
-				log.Printf("build: Warning: %v. Please update your manifest.", e)
-			}
+			logrus.Debugf("build: Warning: %v. Please update your manifest.", e)
 		} else {
 			errStr = fmt.Sprintf("build: Layout failed validation: %v", err)
 			errRes = errors.New(errStr)

@@ -24,6 +24,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/appc/spec/schema"
 	"github.com/appc/spec/schema/types"
 	"github.com/opencontainers/specs"
@@ -98,7 +99,9 @@ func RunOCI2ACI(args []string, flagDebug bool, flagName string) error {
 	}
 
 	if flagDebug {
-		InitDebug()
+		logrus.SetLevel(logrus.DebugLevel)
+	} else {
+		logrus.SetLevel(logrus.InfoLevel)
 	}
 
 	manifestName = flagName
@@ -108,7 +111,7 @@ func RunOCI2ACI(args []string, flagDebug bool, flagName string) error {
 	}
 
 	if bValidate := validateOCIProc(srcPath); bValidate != true {
-		log.Printf("Conversion stop.")
+		logrus.Infof("Conversion stop.")
 		return nil
 	}
 
@@ -116,39 +119,24 @@ func RunOCI2ACI(args []string, flagDebug bool, flagName string) error {
 	// First, convert layout
 	manifestPath, err := convertLayout(srcPath, dirWork)
 	if err != nil {
-		if debugEnabled {
-			log.Printf("Conversion from oci to aci layout failed: %v", err)
-		}
-
+		logrus.Debugf("Conversion from oci to aci layout failed: %v", err)
 	} else {
-		if debugEnabled {
-			log.Printf("Manifest:%v generated successfully.", manifestPath)
-		}
+		logrus.Debugf("Manifest:%v generated successfully.", manifestPath)
 	}
 	// Second, build image
 	imgPath, err := buildACI(dirWork)
 	if err != nil {
-		if debugEnabled {
-			log.Printf("Generate aci image failed:%v", err)
-		}
+		logrus.Debugf("Generate aci image failed:%v", err)
 	} else {
-		if debugEnabled {
-			log.Printf("Image:%v generated successfully.", imgPath)
-		}
+		logrus.Debugf("Image:%v generated successfully.", imgPath)
 	}
 	// Save aci image to the path user specified
 	if dstPath != "" {
 		if err = run(exec.Command("cp", imgPath, dstPath)); err != nil {
-			if debugEnabled {
-				log.Printf("Store aci image failed:%v", err)
-			}
+			logrus.Debugf("Store aci image failed:%v", err)
 		} else {
-			if debugEnabled {
-				log.Printf("Image:%v generated successfully", dstPath)
-			}
-
+			logrus.Debugf("Image:%v generated successfully", dstPath)
 		}
-
 	}
 
 	return nil
@@ -207,35 +195,27 @@ func genManifest(path string) *schema.ImageManifest {
 
 	runtime, err := ioutil.ReadFile(runtimePath)
 	if err != nil {
-		if debugEnabled {
-			log.Printf("Open file runtime.json failed: %v", err)
-		}
+		logrus.Debugf("Open file runtime.json failed: %v", err)
 		return nil
 	}
 
 	config, err := ioutil.ReadFile(configPath)
 	if err != nil {
-		if debugEnabled {
-			log.Printf("Open file config.json failed: %v", err)
-		}
+		logrus.Debugf("Open file config.json failed: %v", err)
 		return nil
 	}
 
 	var spec specs.LinuxSpec
 	err = json.Unmarshal(config, &spec)
 	if err != nil {
-		if debugEnabled {
-			log.Printf("Unmarshal config.json failed: %v", err)
-		}
+		logrus.Debugf("Unmarshal config.json failed: %v", err)
 		return nil
 	}
 
 	var runSpec specs.LinuxRuntimeSpec
 	err = json.Unmarshal(runtime, &runSpec)
 	if err != nil {
-		if debugEnabled {
-			log.Printf("Unmarshal runtime.json failed: %v", err)
-		}
+		logrus.Debugf("Unmarshal runtime.json failed: %v", err)
 		return nil
 	}
 	// Begin to convert runtime.json/config.json to manifest

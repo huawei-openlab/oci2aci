@@ -63,7 +63,7 @@ You can use oci2aci as a CLI tool directly to convert a oci-bundle to aci image,
 ## Example
 
 ### Use oci2aci as a go package
-```
+```go
 package main
 
 import (

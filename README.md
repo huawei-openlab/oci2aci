@@ -62,7 +62,29 @@ FLAGS:
 You can use oci2aci as a CLI tool directly to convert a oci-bundle to aci image, furthermore, you can use oci2aci as a external function in your program by importing package "github.com/huawei-openlab/oci2aci/convert"
 ## Example
 
-Examples of oci2aci illustrated as below:
+### Use oci2aci as a go package
+```
+package main
+
+import (
+	"github.com/huawei-openlab/oci2aci/convert"
+)
+
+func main() {
+
+	......
+	// Get aci manifest from oci bundle.
+	aciManifestPath, err := convert.Oci2aciManifest(ociPath)
+	// Get aci image from oci bundle.
+	aciImg, err := convert.Oci2aciImage(ociPath)
+	......
+	
+	return
+}
+```
+
+### Use oci2aci as a CLI tool
+Examples of oci2aci CLI tool illustrated as below:
 
 - An example of invalid oci bundle
 ```
@@ -102,3 +124,6 @@ $ ./oci2aci --debug example/oci-bundle/ oci.aci
 2015/11/14 15:56:43 Image:/tmp/oci2aci406724597.aci generated successfully.
 2015/11/14 15:56:43 Image:oci.aci generated successfully
 ```
+## Use Cases
+
+- [OCT](https://github.com/huawei-openlab/oct): Tools for testing oci specs.

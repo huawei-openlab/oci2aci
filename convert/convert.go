@@ -144,7 +144,7 @@ func RunOCI2ACI(args []string, flagDebug bool, flagName string) error {
 		} else {
 			logrus.Debugf("Image:%v generated successfully", dstPath)
 		}
-		run(exec.Command("mv", manifestPath, dstPath))
+		run(exec.Command("mv", manifestPath, "./"))
 		run(exec.Command("rm", "-rf", dirWork))
 	}
 

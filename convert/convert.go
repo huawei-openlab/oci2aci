@@ -18,7 +18,6 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -121,22 +120,32 @@ func RunOCI2ACI(args []string, flagDebug bool, flagName string) error {
 	if err != nil {
 		logrus.Debugf("Conversion from oci to aci layout failed: %v", err)
 	} else {
-		logrus.Debugf("Manifest:%v generated successfully.", manifestPath)
+		if dstPath != "" {
+			logrus.Debugf("Manifest file converted successfully.")
+		} else {
+			logrus.Debugf("Manifest:%v generated successfully.", manifestPath)
+		}
 	}
 	// Second, build image
 	imgPath, err := buildACI(dirWork)
 	if err != nil {
 		logrus.Debugf("Generate aci image failed:%v", err)
 	} else {
-		logrus.Debugf("Image:%v generated successfully.", imgPath)
+		if dstPath != "" {
+			logrus.Debugf("ACI image converted successfully.")
+		} else {
+			logrus.Debugf("Image:%v generated successfully.", imgPath)
+		}
 	}
 	// Save aci image to the path user specified
 	if dstPath != "" {
-		if err = run(exec.Command("cp", imgPath, dstPath)); err != nil {
+		if err = run(exec.Command("mv", imgPath, dstPath)); err != nil {
 			logrus.Debugf("Store aci image failed:%v", err)
 		} else {
 			logrus.Debugf("Image:%v generated successfully", dstPath)
 		}
+		run(exec.Command("mv", manifestPath, dstPath))
+		run(exec.Command("rm", "-rf", dirWork))
 	}
 
 	return nil

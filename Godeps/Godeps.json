@@ -3,6 +3,11 @@
 	"GoVersion": "go1.4.2",
 	"Deps": [
 		{
+			"ImportPath": "github.com/Sirupsen/logrus",
+			"Comment": "v0.8.7",
+			"Rev": "418b41d23a1bf978c06faea5313ba194650ac088"
+		},
+		{
 			"ImportPath": "github.com/appc/spec/aci",
 			"Comment": "v0.7.1-21-g17599b9",
 			"Rev": "17599b9e47c4aea746e70b9b89509077f79a4bc6"

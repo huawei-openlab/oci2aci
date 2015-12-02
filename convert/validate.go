@@ -18,7 +18,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -51,10 +50,10 @@ type validateRes struct {
 func validateOCIProc(path string) bool {
 	var bRes bool
 	if err := validateBundle(path); err != nil {
-		logrus.Debugf("%s: invalid oci bundle: %v\n", path, err)
+		logrus.Debugf("%s: invalid oci bundle: %v.", path, err)
 		bRes = false
 	} else {
-		logrus.Debugf("%s: valid oci bundle: %v\n", path)
+		logrus.Debugf("%s: valid oci bundle.", path)
 		bRes = true
 	}
 	return bRes

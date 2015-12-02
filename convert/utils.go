@@ -20,8 +20,19 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
-	"strings"
 )
+
+type Err struct {
+	Message string
+	File    string
+	Path    string
+	Func    string
+	Line    int
+}
+
+func (e *Err) Error() string {
+	return fmt.Sprintf("[%v:%v] %v", e.File, e.Line, e.Message)
+}
 
 func run(cmd *exec.Cmd) error {
 	stdout, err := cmd.StdoutPipe()
@@ -35,4 +46,25 @@ func run(cmd *exec.Cmd) error {
 	go io.Copy(os.Stdout, stdout)
 	go io.Copy(os.Stderr, stderr)
 	return cmd.Run()
+}
+
+func errorf(format string, args ...interface{}) error {
+	msg := fmt.Sprintf(format, args...)
+	pc, filePath, lineNo, ok := runtime.Caller(1)
+	if !ok {
+		return &Err{
+			Message: msg,
+			File:    "unknown_file",
+			Path:    "unknown_path",
+			Func:    "unknown_func",
+			Line:    0,
+		}
+	}
+	return &Err{
+		Message: msg,
+		File:    filepath.Base(filePath),
+		Path:    filePath,
+		Func:    runtime.FuncForPC(pc).Name(),
+		Line:    lineNo,
+	}
 }

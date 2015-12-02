@@ -7,4 +7,4 @@ all:
 install:
 	cp oci2aci /usr/local/bin/oci2aci
 clean:
-	rm oci2aci
+	go clean

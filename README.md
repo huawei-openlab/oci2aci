@@ -124,6 +124,26 @@ $ ./oci2aci --debug example/oci-bundle/ oci.aci
 2015/11/14 15:56:43 Image:/tmp/oci2aci406724597.aci generated successfully.
 2015/11/14 15:56:43 Image:oci.aci generated successfully
 ```
+
+- An example for oci bundle of `busybox`
+
+First, follow the instruction [here](https://github.com/opencontainers/runc#examples) to get an oci bundle of `busybox`.
+```
+$ ./oci2aci --debug example/busybox/ busybox.aci
+DEBU[0000] example/busybox/: valid oci bundle.          
+DEBU[0000] Manifest file converted successfully.        
+DEBU[0002] ACI image converted successfully.            
+DEBU[0002] Image:busybox.aci generated successfully     
+
+$ rkt run --insecure-skip-verify --interactive busybox.aci --volume proc,kind=host,source=/bin --volume dev,kind=host,source=/bin --volume devpts,kind=host,source=/bin --volume shm,kind=host,source=/bin --volume mqueue,kind=host,source=/bin --volume sysfs,kind=host,source=/bin --volume cgroup,kind=host,source=/bin
+rkt: using image from local store for image name coreos.com/rkt/stage1-coreos:0.11.0
+rkt: using image from file /root/Applications/Go/src/github.com/huawei-openlab/oci2aci/1.aci
+run: group "rkt" not found, will use default gid when rendering images
+/ # ls
+bin   dev   etc   home  proc  root  sys   tmp   usr   var
+/ # 
+
+```
 ## Use Cases
 
 - [OCT](https://github.com/huawei-openlab/oct): Tools for testing oci specs.

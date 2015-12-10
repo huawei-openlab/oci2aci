@@ -275,6 +275,12 @@ func genManifest(path string) *schema.ImageManifest {
 			}
 		}
 		app.Exec[0] = prefixDir + app.Exec[0]
+		// If exec is /xx, it must be wrong, /bin will be prefixed it.
+		var res []string
+		res = strings.SplitAfter(app.Exec[0], "/")
+		if len(res) <= 2 {
+			app.Exec[0] = "/bin" + app.Exec[0]
+		}
 	}
 
 	// 5.2 "user"

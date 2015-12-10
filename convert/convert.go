@@ -22,6 +22,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/appc/spec/schema"
@@ -369,13 +370,22 @@ func genManifest(path string) *schema.ImageManifest {
 		app.Isolators = append(app.Isolators, *isolator)
 	}
 
-	// 6. "annotations"
+	m.App = app
 
+	// 6. "annotations"
+	anno := new(types.Annotation)
+	anno.Name = types.ACIdentifier("created")
+	anno.Value = time.Now().Format(time.RFC3339)
+	m.Annotations = append(m.Annotations, *anno)
+	anno.Name = types.ACIdentifier("authors")
+	anno.Value = "chengtiesheng@huawei.com"
+	m.Annotations = append(m.Annotations, *anno)
+	anno.Name = types.ACIdentifier("homepage")
+	anno.Value = "https://github.com/huawei-openlab/oci2aci"
+	m.Annotations = append(m.Annotations, *anno)
 	// 7. "dependencies"
 
 	// 8. "pathWhitelist"
-
-	m.App = app
 
 	return m
 }

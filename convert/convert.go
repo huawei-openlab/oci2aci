@@ -339,9 +339,9 @@ func genManifest(path string) *schema.ImageManifest {
 
 	// 5.9 "isolators"
 	if runSpec.Linux.Resources != nil {
-		if runSpec.Linux.Resources.CPU.Quota != 0 {
+		if *runSpec.Linux.Resources.CPU.Quota != 0 {
 			cpuLimt := new(ResourceCPU)
-			cpuLimt.Limit = fmt.Sprintf("%dm", runSpec.Linux.Resources.CPU.Quota)
+			cpuLimt.Limit = fmt.Sprintf("%dm", *runSpec.Linux.Resources.CPU.Quota)
 			isolator := new(types.Isolator)
 			isolator.Name = types.ACIdentifier("resource/cpu")
 			bytes, _ := json.Marshal(cpuLimt)
@@ -351,9 +351,9 @@ func genManifest(path string) *schema.ImageManifest {
 
 			app.Isolators = append(app.Isolators, *isolator)
 		}
-		if runSpec.Linux.Resources.Memory.Limit != 0 {
+		if *runSpec.Linux.Resources.Memory.Limit != 0 {
 			memLimt := new(ResourceMem)
-			memLimt.Limit = fmt.Sprintf("%dG", runSpec.Linux.Resources.Memory.Limit/(1024*1024*1024))
+			memLimt.Limit = fmt.Sprintf("%dG", *runSpec.Linux.Resources.Memory.Limit/(1024*1024*1024))
 			isolator := new(types.Isolator)
 			isolator.Name = types.ACIdentifier("resource/memory")
 			bytes, _ := json.Marshal(memLimt)
